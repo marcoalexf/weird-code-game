@@ -10,7 +10,8 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      failFast: true,
     },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/frontend'),
@@ -24,9 +25,9 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
+    autoWatch: false,
     browsers: ['ChromeHeadless'],
-    singleRun: false,
+    singleRun: true,
     restartOnFileChange: true
   });
 };
