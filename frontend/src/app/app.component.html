@@ -1,14 +1,29 @@
 <div class="container">
+  <h1>Random Grid Generator</h1>
+  
+  <div class="bias-container">
+    <label for="biasInput">Enter Bias Character:</label>
+    <input 
+      id="biasInput" 
+      type="text" 
+      maxlength="1" 
+      [formControl]="biasControl" 
+      [attr.disabled]="isInputDisabled ? true : null" 
+      placeholder="a-z"
+      aria-label="Bias Character"
+    />
+  </div>
+  
   <button (click)="startGenerator()">Start Generator</button>
   <button (click)="stopGenerator()">Stop Generator</button>
-
-  <table>
+  
+  <table *ngIf="grid.length > 0" class="grid-table">
     <tr *ngFor="let row of grid">
       <td *ngFor="let cell of row">{{ cell }}</td>
     </tr>
   </table>
 
-  <div class="code-display">
-    Code: {{ code }}
+  <div *ngIf="code">
+    <p>Generated Code: {{ code }}</p>
   </div>
 </div>
