@@ -1,0 +1,41 @@
+.container {
+    text-align: center;
+    margin: 20px;
+    height: 100%;
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin: 20px auto;
+  }
+  
+  td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+  }
+  
+  button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .code-display {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  #biasInput:disabled {
+    .bias-container {
+      opacity: 0.5;
+      cursor: not-allowed;
+      
+      * {
+        cursor: not-allowed;
+      }
+    }
+  }
