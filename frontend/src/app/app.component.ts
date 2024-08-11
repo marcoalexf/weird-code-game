@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { GridService } from './grid.service';
 import { HttpClientModule } from '@angular/common/http';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
-import { distinctUntilChanged, switchMap, timer } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,18 +17,20 @@ import { distinctUntilChanged, switchMap, timer } from 'rxjs';
 export class AppComponent implements OnDestroy {
   grid: string[][] = [];
   code: string = '';
-  biasControl = new FormControl('');
   intervalId: any;
   lastRequestTime: number = 0;
   readonly requestInterval = 1000;  // 1 second for grid refresh
   readonly inputLockDuration = 4000;  // 4 seconds for input lock
   readonly debounceTime = 1500;       // 1.5 seconds debounce time
-  isInputDisabled = false;
+  form = new FormGroup({
+    biasControl: new FormControl('')
+  });
 
   constructor(private gridService: GridService) {}
 
   ngOnInit(): void {
     this.initializeGrid();
+    this.setupBiasControl();
   }
 
   ngOnDestroy(): void {
@@ -42,23 +44,24 @@ export class AppComponent implements OnDestroy {
   }
 
   setupBiasControl(): void {
-    this.biasControl.valueChanges
+    this.form.controls.biasControl.valueChanges
       .pipe(
         debounceTime(this.debounceTime),
         distinctUntilChanged(),
-        switchMap(value => {
-          value = value ?? ''
-          this.isInputDisabled = true;
-          // Re-enable input after 4 seconds
-          timer(this.inputLockDuration).subscribe(() => this.isInputDisabled = false);
-          return value.length === 1 && /^[a-z]$/i.test(value) ? this.gridService.getGrid(value ?? '') : [];
-        })
       )
-      .subscribe(response => {
-        this.grid = response.grid;
-        this.generateCode();
-      }, error => {
-        console.error('Error fetching grid:', error);
+      .subscribe({
+        next: value => {
+          value = value ?? ''
+          this.form.controls.biasControl.disable();
+          // Re-enable input after 4 seconds
+          timer(this.inputLockDuration).subscribe(() => {
+            this.form.controls.biasControl.enable();
+          });
+          this.generateCode();
+        }, 
+        error: err => {
+          console.error('Error fetching grid:', err);
+        }
       });
   }
 
@@ -67,13 +70,14 @@ export class AppComponent implements OnDestroy {
       const currentTime = Date.now();
       if (currentTime - this.lastRequestTime >= this.requestInterval) {
         this.lastRequestTime = currentTime;
-        if (!this.isInputDisabled) {
-          const bias = this.biasControl.value ?? '';
-          this.gridService.getGrid(bias).subscribe(response => {
-            this.grid = response.grid;
-            this.generateCode();
-          }, error => {
-            console.error('Error fetching grid:', error);
+        if (!this.form.controls.biasControl.disabled) {
+          const bias = this.form.controls.biasControl.value ?? '';
+          this.gridService.getGrid(bias).subscribe({
+            next: response => {
+              this.grid = response.grid;
+              this.generateCode();
+            },
+            error: err => console.error('Error fetching grid:', err)
           });
         }
       }

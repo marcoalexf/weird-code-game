@@ -1,14 +1,13 @@
 <div class="container">
   <h1>Random Grid Generator</h1>
   
-  <div class="bias-container">
+  <div class="bias-container" [formGroup]="form">
     <label for="biasInput">Enter Bias Character:</label>
     <input 
       id="biasInput" 
       type="text" 
       maxlength="1" 
-      [formControl]="biasControl" 
-      [attr.disabled]="isInputDisabled ? true : null" 
+      formControlName="biasControl"
       placeholder="a-z"
       aria-label="Bias Character"
     />
