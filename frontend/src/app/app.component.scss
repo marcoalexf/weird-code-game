@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  flex-grow: 1;
+}
+
+.container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  background-color: #333;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.navbar a.active {
+  font-weight: bold;
+  border-bottom: 2px solid white;
+}
+
+.navbar a span {
+  margin-left: 0.5rem;
+}

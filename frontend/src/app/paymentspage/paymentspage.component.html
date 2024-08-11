@@ -1,0 +1,38 @@
+<div class="container">
+    <form [formGroup]="paymentForm" class="input-row">
+      <input
+        type="text"
+        formControlName="paymentName"
+        placeholder="Payment Name"
+        class="input-field"
+      />
+      <input
+        type="number"
+        formControlName="amount"
+        placeholder="Amount"
+        class="input-field"
+      />
+      <button (click)="addPayment()" [disabled]="paymentForm.invalid">Add</button>
+    </form>
+
+    <div class="table-row">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Code</th>
+            <th>Grid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let payment of payments$ | async">
+            <td>{{ payment.paymentName }}</td>
+            <td>{{ payment.amount }}</td>
+            <td>{{ payment.code }}</td>
+            <td>100</td> <!-- Not sure what do you want here but oh well -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
