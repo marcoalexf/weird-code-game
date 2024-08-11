@@ -5,6 +5,7 @@ import { PaymentService } from '../payment-service.service';
 import { Payment } from '../../models/payment';
 import { BehaviorSubject, Subject, switchMap } from 'rxjs';
 import { CodeService } from '../code.service';
+import { GridService } from '../grid.service';
 
 @Component({
   selector: 'app-paymentspage',
@@ -42,7 +43,7 @@ export class PaymentspageComponent implements OnInit {
 
   addPayment() {
     if (this.paymentForm.valid) {
-      this.paymentService.createPayment(this.paymentForm.value, this.codeService.code$.value).subscribe({
+      this.paymentService.createPayment(this.paymentForm.value, this.codeService.code$.value, this.codeService.grid$.value).subscribe({
         next: (response) => {
           console.log('Payment created successfully:', response);
           this.paymentLoadingTrigger$.next(1);

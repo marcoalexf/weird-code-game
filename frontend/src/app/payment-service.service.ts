@@ -11,10 +11,10 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  createPayment(payment: Payment, code: string): Observable<Payment> {
+  createPayment(payment: Payment, code: string, grid: string[][]): Observable<Payment> {
     const payload = {
       ...payment,
-      grid: 100,
+      grid,
       code
     }
     return this.http.post<Payment>(`${this.apiUrl}`, payload);
