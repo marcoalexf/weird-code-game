@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
 @Injectable()
 export class CodeService {
 
-  code: BehaviorSubject<string> = new BehaviorSubject('');
+  code$: BehaviorSubject<string> = new BehaviorSubject('');
   grid$: BehaviorSubject<string[][]> = new BehaviorSubject(new Array<string[]>);
   bias$: BehaviorSubject<string> = new BehaviorSubject('');
   intervalId: any;
@@ -61,7 +61,7 @@ export class CodeService {
 
       // Generate the two-digit code
       const code = `${adjustedCount1}${adjustedCount2}`;
-      this.code.next(code);
+      this.code$.next(code);
     }
   }
 

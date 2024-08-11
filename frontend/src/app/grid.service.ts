@@ -12,6 +12,6 @@ export class GridService {
   constructor(private http: HttpClient) {}
 
   getGrid(bias: string): Observable<{ grid: string[][] }> {
-    return this.http.post<{ grid: string[][] }>(this.apiUrl, { bias });
+    return this.http.post<{ grid: string[][] }>(this.apiUrl, { bias: bias ?? '' });
   }
 }

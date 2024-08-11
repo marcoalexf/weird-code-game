@@ -22,13 +22,15 @@
             <th>Name</th>
             <th>Amount</th>
             <th>Code</th>
+            <th>Grid</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let payment of payments">
-            <td>{{ payment.payment }}</td>
+          <tr *ngFor="let payment of payments$ | async">
+            <td>{{ payment.paymentName }}</td>
             <td>{{ payment.amount }}</td>
             <td>{{ payment.code }}</td>
+            <td>{{ payment.grid }}</td>
           </tr>
         </tbody>
       </table>

@@ -23,7 +23,7 @@ export class Grid {
         return this._grid;
     }
 
-    initializeEmptyGrid() {
+    initializeGrid() {
         const gridSize = 10;
         for (let row = 0; row < gridSize; row++) {
             for (let col = 0; col < gridSize; col++) {

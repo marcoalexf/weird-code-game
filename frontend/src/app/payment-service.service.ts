@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-interface Payment {
-  payment: string;
-  amount: number;
-  code: string;
-}
+import { Payment } from '../models/payment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +11,11 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  createPayment(payment: Payment): Observable<Payment> {
+  createPayment(payment: Payment, code: string): Observable<Payment> {
     const payload = {
       ...payment,
-      grid: 100
+      grid: 100,
+      code
     }
     return this.http.post<Payment>(`${this.apiUrl}`, payload);
   }

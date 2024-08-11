@@ -17,7 +17,7 @@ export class AppComponent {
   code$: Observable<string>;
 
   constructor(private codeService: CodeService, private router: Router) {
-    this.code$ = this.codeService.code.asObservable();
+    this.code$ = this.codeService.code$.asObservable();
   }
 
   isActive(route: string): boolean {

@@ -1,15 +1,17 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IPayment extends Document {
-  payment: string;
+  paymentName: string;
   amount: number;
   code: string;
+  grid: number;
 }
 
 const PaymentSchema: Schema = new Schema({
-  payment: { type: String, required: true },
+  paymentName: { type: String, required: true },
   amount: { type: Number, required: true },
   code: { type: String, required: true },
+  grid: { type: Number, required: true}
 });
 
 export const Payment = mongoose.model<IPayment>('Payment', PaymentSchema);
