@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { PaymentService } from '../payment-service.service';
 
 @Component({
   selector: 'app-paymentspage',
@@ -13,7 +14,7 @@ export class PaymentspageComponent {
   paymentForm: FormGroup;
   payments: { payment: string; amount: number; code: string }[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private paymentService: PaymentService) {
     this.paymentForm = this.fb.group({
       paymentName: ['', [Validators.required, Validators.maxLength(50)]],
       amount: [null, [Validators.required, Validators.min(0.01)]],
@@ -22,13 +23,15 @@ export class PaymentspageComponent {
 
   addPayment() {
     if (this.paymentForm.valid) {
-      const paymentName = this.paymentForm.value.paymentName;
-      const amount = this.paymentForm.value.amount;
-
-      this.payments.push({
-        payment: paymentName,
-        amount: amount,
-        code: '',
+      this.paymentService.createPayment(this.paymentForm.value).subscribe({
+        next: (response) => {
+          console.log('Payment created successfully:', response);
+          // Handle successful payment creation
+        },
+        error: (err) => {
+          console.error('Error creating payment:', err);
+          // Handle error
+        }
       });
 
       // Reset form after adding the payment

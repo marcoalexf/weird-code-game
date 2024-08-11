@@ -16,10 +16,12 @@
     <button (click)="startGenerator()">Start Generator</button>
     <button (click)="stopGenerator()">Stop Generator</button>
     
-    <table *ngIf="grid.length > 0" class="grid-table">
-      <tr *ngFor="let row of grid">
-        <td *ngFor="let cell of row">{{ cell }}</td>
-      </tr>
-    </table>
+    <div *ngIf="grid$ | async; let grid">
+        <table *ngIf="grid.length > 0" class="grid-table">
+            <tr *ngFor="let row of grid">
+              <td *ngFor="let cell of row">{{ cell }}</td>
+            </tr>
+        </table>
+    </div>
   </div>
   
